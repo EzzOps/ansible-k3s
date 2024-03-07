@@ -1,0 +1,17 @@
+kind: Ingress
+metadata:
+  name: game-2048
+  namespace: default
+spec:
+  ingressClassName: ngrok
+  rules:
+    - host: highly-true-possum.ngrok-free.app
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: game-2048
+                port:
+                  number: 80
