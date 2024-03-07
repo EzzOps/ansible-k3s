@@ -1,3 +1,31 @@
+# - hosts: localhost
+#   gather_facts: no
+#   vars:
+#     NGROK_AUTHTOKEN: "2ZHD9jIsD64TAdsRufwzJiAn9g0_3tfmUazFkEeVG6scCWNuB"
+#     NGROK_API_KEY: "2dNSrfv70VxdstNx8v1nQIh2L4p_5iGJmuHT3WE7FVhs8TywD"
+#     NGROK_DOMAIN: "highly-true-possum.ngrok-free.app"
+
+# - hosts: localhost
+#   gather_facts: no
+#   vars:
+#     kubeconfig: /Users/mac/ansible-k3s-1/k8s.yaml
+#     NGROK_AUTHTOKEN: "2ZHD9jIsD64TAdsRufwzJiAn9g0_3tfmUazFkEeVG6scCWNuB"
+#     NGROK_API_KEY: "2dNSrfv70VxdstNx8v1nQIh2L4p_5iGJmuHT3WE7FVhs8TywD"
+#   tasks:
+#     - name: Add ngrok Helm repository
+#       ansible.builtin.shell:
+#         cmd: helm repo add ngrok https://ngrok.github.io/kubernetes-ingress-controller
+#         chdir: "{{ kubeconfig }}"
+
+#     - name: Install ngrok ingress controller
+#       ansible.builtin.shell:
+#         cmd: >
+          # helm install ngrok-ingress-controller ngrok/kubernetes-ingress-controller \
+          #   --namespace ngrok-ingress-controller \
+          #   --create-namespace \
+          #   --set credentials.apiKey=2dNSrfv70VxdstNx8v1nQIh2L4p_5iGJmuHT3WE7FVhs8TywD \
+          #   --set credentials.authtoken=2ZHD9jIsD64TAdsRufwzJiAn9g0_3tfmUazFkEeVG6scCWNuB
+#         chdir: "{{ kubeconfig }}"
 ---
 - hosts: localhost
   gather_facts: no
@@ -14,8 +42,8 @@
         kubeconfig: /Users/mac/ansible-k3s-1/k8s.yaml
         src: 'playbooks/k8s-manifests/service.yml'
 
-    # - name: Apply Ingress
-    #   kubernetes.core.k8s:
-    #     state: present
-    #     kubeconfig: /Users/mac/ansible-k3s-1/k8s.yaml
-    #     src: 'playbooks/k8s-manifests/ingress.yml'
+    - name: Apply Ingress
+      kubernetes.core.k8s:
+        state: present
+        kubeconfig: /Users/mac/ansible-k3s-1/k8s.yaml
+        src: 'playbooks/k8s-manifests/ingress.yml'
