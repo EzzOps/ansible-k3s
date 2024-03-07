@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Apply Deployment
+      kubernetes.core.k8s:
+        state: present
+        kubeconfig: /Users/mac/ansible-k3s-1/k8s.yaml
+        src: 'playbooks/k8s-manifests/deployment.yml'
+
+    - name: Apply Service
+      kubernetes.core.k8s:
+        state: present
+        kubeconfig: /Users/mac/ansible-k3s-1/k8s.yaml
+        src: 'playbooks/k8s-manifests/service.yml'
+
+    # - name: Apply Ingress
+    #   kubernetes.core.k8s:
+    #     state: present
+    #     kubeconfig: /Users/mac/ansible-k3s-1/k8s.yaml
+    #     src: 'playbooks/k8s-manifests/ingress.yml'
