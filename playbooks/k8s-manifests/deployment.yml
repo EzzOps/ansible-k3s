@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-app
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: django-app
+  template:
+    metadata:
+      labels:
+        app: django-app
+    spec:
+      containers:
+      - name: django-app
+        image: nginx
+        # imagePullSecrets:
+        # - name: regcred
+        ports:
+        - containerPort: 8000
+        # envFrom:
+        # - configMapRef:
+        #     name: django-config
+        # - secretRef:
+        #     name: django-secret        
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 500m
+            memory: 500Mi
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+      #     volumeMounts:
+      #       - name: django-storage
+      #     mountPath: /path/in/your/container
+      # volumes:
+      # - name: django-storage
+      #   persistentVolumeClaim:
+      #     claimName: django-pvc
